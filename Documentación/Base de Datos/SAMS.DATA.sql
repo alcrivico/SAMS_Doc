@@ -45,6 +45,7 @@ BEGIN
 END
 GO
 
+-- Monedero
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Monedero]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [Monedero] (
