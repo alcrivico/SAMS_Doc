@@ -93,30 +93,6 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE [Venta] (
-        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-        [NoVenta] INT NOT NULL,
-        [FechaRegistro] DATETIME NOT NULL,
-        [IVA] FLOAT NOT NULL,
-        [Total] FLOAT NOT NULL
-    );
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_Producto]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE [Venta_Producto] (
-        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-        [IdVenta] INT NOT NULL,
-        [IdProducto] INT NOT NULL,
-        CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
-        CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
-    );
-END
-GO
-
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Merma]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [Merma] (
@@ -165,6 +141,33 @@ BEGIN
         [HoraDeCorte] DATETIME NOT NULL,
         [IdEmpleado] INT NULL,
         CONSTRAINT FK_Caja_Empleado FOREIGN KEY ([IdEmpleado]) REFERENCES [Empleado] ([Id])
+    );
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Venta] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [NoVenta] INT NOT NULL,
+        [FechaRegistro] DATETIME NOT NULL,
+        [IVA] FLOAT NOT NULL,
+        [Total] FLOAT NOT NULL,
+        [IdCaja] INT NOT NULL,
+        CONSTRAINT FK_Venta_Caja FOREIGN KEY ([IdCaja]) REFERENCES [Caja] ([Id])
+        
+    );
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_Producto]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Venta_Producto] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [IdVenta] INT NOT NULL,
+        [IdProducto] INT NOT NULL,
+        CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
+        CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
     );
 END
 GO
