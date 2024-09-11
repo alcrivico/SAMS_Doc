@@ -62,7 +62,9 @@ BEGIN
         [FechaPedido] DATE NOT NULL,
         [FechaEntrega] DATE NOT NULL,
         [IdEstadoPedido] INT NOT NULL,
-        CONSTRAINT FK_Pedido_EstadoPedido FOREIGN KEY ([IdEstadoPedido]) REFERENCES [EstadoPedido] ([Id])
+        [IdProveedor] INT NOT NULL, 
+        CONSTRAINT FK_Pedido_EstadoPedido FOREIGN KEY ([IdEstadoPedido]) REFERENCES [EstadoPedido] ([Id]),
+        CONSTRAINT FK_Pedido_Proveedor FOREIGN KEY ([IdProveedor]) REFERENCES [Proveedor] ([Id])
     );
 END
 GO
@@ -121,7 +123,9 @@ BEGIN
         [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
         [Cantidad] INT NOT NULL,
         [Descripcion] VARCHAR(255) NULL,
-        [FechaRegistro] DATE NOT NULL
+        [FechaRegistro] DATE NOT NULL,
+        [IdProducto] INT NOT NULL,
+        CONSTRAINT FK_Merma_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
     );
 END
 GO
