@@ -45,6 +45,20 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Monedero]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Monedero] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [CodigoDeBarras] INT NOT NULL,
+        [Saldo] FLOAT NOT NULL,
+        [Nombre] VARCHAR(55) NOT NULL,
+        [ApellidoPaterno] VARCHAR(55) NOT NULL,
+        [ApellidoMaterno] VARCHAR(55) NULL,
+        [Telefono] VARCHAR(10) NOT NULL
+    );
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EstadoPedido]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [EstadoPedido] (
@@ -154,8 +168,9 @@ BEGIN
         [IVA] FLOAT NOT NULL,
         [Total] FLOAT NOT NULL,
         [IdCaja] INT NOT NULL,
-        CONSTRAINT FK_Venta_Caja FOREIGN KEY ([IdCaja]) REFERENCES [Caja] ([Id])
-        
+        [IdMonedero] INT NOT NULL,
+        CONSTRAINT FK_Venta_Caja FOREIGN KEY ([IdCaja]) REFERENCES [Caja] ([Id]),
+        CONSTRAINT FK_Venta_Monedero FOREIGN KEY ([IdMonedero]) REFERENCES [Monedero] ([Id])
     );
 END
 GO
@@ -171,3 +186,6 @@ BEGIN
     );
 END
 GO
+
+
+
