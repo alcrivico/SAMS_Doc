@@ -54,6 +54,18 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Proveedor]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Proveedor] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [RFC] VARCHAR(13) NOT NULL,
+        [Nombre] VARCHAR(55) NOT NULL,
+        [Correo] VARCHAR(55) NOT NULL,
+        [Telefono] VARCHAR(10) NOT NULL
+    );
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Pedido]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [Pedido] (
@@ -101,18 +113,6 @@ BEGIN
         [IdProducto] INT NOT NULL,
         CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
         CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
-    );
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Proveedor]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE [Proveedor] (
-        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-        [RFC] VARCHAR(13) NOT NULL,
-        [Nombre] VARCHAR(55) NOT NULL,
-        [Correo] VARCHAR(55) NOT NULL,
-        [Telefono] VARCHAR(10) NOT NULL
     );
 END
 GO
