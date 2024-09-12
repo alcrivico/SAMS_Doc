@@ -45,6 +45,21 @@ BEGIN
 END
 GO
 
+-- Monedero
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Monedero]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Monedero] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [CodigoDeBarras] INT NOT NULL,
+        [Saldo] FLOAT NOT NULL,
+        [Nombre] VARCHAR(55) NOT NULL,
+        [ApellidoPaterno] VARCHAR(55) NOT NULL,
+        [ApellidoMaterno] VARCHAR(55) NULL,
+        [Telefono] VARCHAR(10) NOT NULL
+    );
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EstadoPedido]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [EstadoPedido] (
@@ -89,30 +104,6 @@ BEGIN
         [IdProducto] INT NOT NULL,
         CONSTRAINT FK_PedidoProducto_Pedido FOREIGN KEY ([IdPedido]) REFERENCES [Pedido] ([Id]),
         CONSTRAINT FK_PedidoProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
-    );
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE [Venta] (
-        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-        [NoVenta] INT NOT NULL,
-        [FechaRegistro] DATETIME NOT NULL,
-        [IVA] FLOAT NOT NULL,
-        [Total] FLOAT NOT NULL
-    );
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_Producto]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE [Venta_Producto] (
-        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-        [IdVenta] INT NOT NULL,
-        [IdProducto] INT NOT NULL,
-        CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
-        CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
     );
 END
 GO
@@ -168,3 +159,34 @@ BEGIN
     );
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Venta] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [NoVenta] INT NOT NULL,
+        [FechaRegistro] DATETIME NOT NULL,
+        [IVA] FLOAT NOT NULL,
+        [Total] FLOAT NOT NULL,
+        [IdCaja] INT NOT NULL,
+        [IdMonedero] INT NOT NULL,
+        CONSTRAINT FK_Venta_Caja FOREIGN KEY ([IdCaja]) REFERENCES [Caja] ([Id]),
+        CONSTRAINT FK_Venta_Monedero FOREIGN KEY ([IdMonedero]) REFERENCES [Monedero] ([Id])
+    );
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_Producto]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Venta_Producto] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [IdVenta] INT NOT NULL,
+        [IdProducto] INT NOT NULL,
+        CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
+        CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
+    );
+END
+GO
+
+
+
