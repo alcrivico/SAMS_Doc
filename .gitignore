@@ -1,0 +1,4 @@
+# Ignorar archivos temporales de Word y Excel
+~$*.docx
+~$*.xlsx
+*.tmp
