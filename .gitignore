@@ -2,3 +2,5 @@
 ~$*.docx
 ~$*.xlsx
 *.tmp
+.feap
+SAMS.feap
