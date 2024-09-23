@@ -7,6 +7,15 @@ GO
 USE [SAMS.Data];
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Promocion]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Promocion] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [Promocion] VARCHAR(55) NOT NULL
+    );
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[UnidadDeMedida]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [UnidadDeMedida] (
@@ -25,22 +34,48 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Producto]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EstadoProducto]') AND type in (N'U'))
 BEGIN
-    CREATE TABLE [Producto] (
+    CREATE TABLE [Categoria] (
         [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [Estado] VARCHAR(55) NOT NULL
+    );
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[ProductoInventario]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [ProductoInventario] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [Codigo] VARCHAR(55) NOT NULL,
         [Nombre] VARCHAR(55) NOT NULL,
         [Descripcion] VARCHAR(255) NULL,
         [Cantidad] INT NOT NULL,
-        [Precio] FLOAT NOT NULL,
+        [PrecioVenta] FLOAT NOT NULL,
         [FechaCaducidad] DATE NOT NULL,
         [EsPerecedero] BIT NOT NULL,
         [EsDevolvible] BIT NOT NULL,
         [Ubicacion] BIT NOT NULL,
         [IdUnidadDeMedida] INT NOT NULL,
         [IdCategoria] INT NOT NULL,
-        CONSTRAINT FK_Producto_UnidadDeMedida FOREIGN KEY ([IdUnidadDeMedida]) REFERENCES [UnidadDeMedida] ([Id]),
-        CONSTRAINT FK_Producto_Categoria FOREIGN KEY ([IdCategoria]) REFERENCES [Categoria] ([Id])
+        [IdEstado] INT NOT NULL,
+        CONSTRAINT FK_ProductoInventario_UnidadDeMedida FOREIGN KEY ([IdUnidadDeMedida]) REFERENCES [UnidadDeMedida] ([Id]),
+        CONSTRAINT FK_ProductoInventario_Categoria FOREIGN KEY ([IdCategoria]) REFERENCES [Categoria] ([Id]),
+        CONSTRAINT FK_ProductoInventario_EstadoProducto FOREIGN KEY ([IdEstado]) REFERENCES [EstadoProducto] ([Id])
+    );
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Promocion_ProductoInventario]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Promocion_ProductoInventario] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [FechaInicio] DATE NOT NULL,
+        [FechaFin] DATE NOT NULL,
+        [IdPromocion] INT NOT NULL,
+        [IdProductoInventario] INT NOT NULL,
+        CONSTRAINT FK_PromocionProductoInventario_Promocion FOREIGN KEY ([IdPromocion]) REFERENCES [Promocion] ([Id]),
+        CONSTRAINT FK_PromocionProductoInventario_ProductoInventario FOREIGN KEY ([IdProductoInventario]) REFERENCES [ProductoInventario] ([Id])
     );
 END
 GO
@@ -81,6 +116,18 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Proveedor]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Proveedor] (
+        [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [RFC] VARCHAR(13) NOT NULL,
+        [Nombre] VARCHAR(55) NOT NULL,
+        [Correo] VARCHAR(55) NOT NULL,
+        [Telefono] VARCHAR(10) NOT NULL
+    );
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Pedido]') AND type in (N'U'))
 BEGIN
     CREATE TABLE [Pedido] (
@@ -96,14 +143,24 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Pedido_Producto]') AND type in (N'U'))
+-- IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[DetallePedido]') AND type in (N'U'))
+-- BEGIN
+--     CREATE TABLE [DetallePedido] (
+--         [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+--         [Cantidad] INT NOT NULL,
+--         [IdPed] 
+--     );
+-- END
+-- GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Pedido_ProductoInventario]') AND type in (N'U'))
 BEGIN
-    CREATE TABLE [Pedido_Producto] (
+    CREATE TABLE [Pedido_ProductoInventario] (
         [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
         [IdPedido] INT NOT NULL,
-        [IdProducto] INT NOT NULL,
-        CONSTRAINT FK_PedidoProducto_Pedido FOREIGN KEY ([IdPedido]) REFERENCES [Pedido] ([Id]),
-        CONSTRAINT FK_PedidoProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
+        [IdProductoInventario] INT NOT NULL,
+        CONSTRAINT FK_PedidoProductoInventario_Pedido FOREIGN KEY ([IdPedido]) REFERENCES [Pedido] ([Id]),
+        CONSTRAINT FK_PedidoProductoInventario_ProductoInventario FOREIGN KEY ([IdProductoInventario]) REFERENCES [ProductoInventario] ([Id])
     );
 END
 GO
@@ -115,8 +172,8 @@ BEGIN
         [Cantidad] INT NOT NULL,
         [Descripcion] VARCHAR(255) NULL,
         [FechaRegistro] DATE NOT NULL,
-        [IdProducto] INT NOT NULL,
-        CONSTRAINT FK_Merma_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
+        [IdProductoInventario] INT NOT NULL,
+        CONSTRAINT FK_Merma_ProductoInventario FOREIGN KEY ([IdProductoInventario]) REFERENCES [ProductoInventario] ([Id])
     );
 END
 GO
@@ -167,6 +224,9 @@ BEGIN
         [NoVenta] INT NOT NULL,
         [FechaRegistro] DATETIME NOT NULL,
         [IVA] FLOAT NOT NULL,
+        [CantidadEfectivo] DECIMAL(19,2) NOT NULL,
+        [CantidadTarjeta] DECIMAL(19,2) NOT NULL,
+        [CantidadMonedero] DECIMAL(19,2) NOT NULL,
         [Total] FLOAT NOT NULL,
         [IdCaja] INT NOT NULL,
         [IdMonedero] INT NOT NULL,
@@ -176,14 +236,15 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_Producto]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Venta_ProductoInventario]') AND type in (N'U'))
 BEGIN
-    CREATE TABLE [Venta_Producto] (
+    CREATE TABLE [Venta_ProductoInventario] (
         [Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        [Cantidad] INT NOT NULL,
         [IdVenta] INT NOT NULL,
-        [IdProducto] INT NOT NULL,
-        CONSTRAINT FK_VentaProducto_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
-        CONSTRAINT FK_VentaProducto_Producto FOREIGN KEY ([IdProducto]) REFERENCES [Producto] ([Id])
+        [IdProductoInventario] INT NOT NULL,
+        CONSTRAINT FK_VentaProductoInventario_Venta FOREIGN KEY ([IdVenta]) REFERENCES [Venta] ([Id]),
+        CONSTRAINT FK_VentaProductoInventario_ProductoInventario FOREIGN KEY ([IdProductoInventario]) REFERENCES [ProductoInventario] ([Id])
     );
 END
 GO
