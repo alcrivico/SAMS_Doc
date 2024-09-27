@@ -29,7 +29,6 @@ CREATE TABLE [ProductoInventario] (
 	[descripcion] nvarchar(max) NOT NULL,
 	[cantidad] int NOT NULL,
 	[precioActual] decimal(8,2) NOT NULL,
-	[fechaCaducidad] date NOT NULL,
 	[esPerecedero] nvarchar(max) NOT NULL,
 	[esDevolvible] nvarchar(max) NOT NULL,
 	[ubicacion] nvarchar(max) NOT NULL,
@@ -46,6 +45,7 @@ CREATE TABLE [DetallePedido] (
 	[precioCompra] decimal(8,2) NOT NULL,
 	[idPedido] int NOT NULL,
 	[idProductoProveedor] int NOT NULL,
+	[fechaCaducidad] date NOT NULL,
 	PRIMARY KEY ([id])
 );
 
@@ -138,6 +138,7 @@ CREATE TABLE [DetalleVenta] (
 	[precioVenta] decimal(8,2) NOT NULL,
 	[idVenta] int NOT NULL,
 	[idProductoInventario] int NOT NULL,
+	[ganancia] decimal(8,2) NOT NULL,
 	PRIMARY KEY ([id])
 );
 
@@ -160,8 +161,6 @@ CREATE TABLE [PromocionVigencia] (
 	[idPromocion] int NOT NULL,
 	PRIMARY KEY ([id])
 );
-
-
 
 
 ALTER TABLE [ProductoInventario] ADD CONSTRAINT [ProductoInventario_fk10] FOREIGN KEY ([idUnidadMedida]) REFERENCES [UnidadDeMedida]([id]);
