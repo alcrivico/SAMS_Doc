@@ -1,37 +1,37 @@
 CREATE TABLE [Proveedor] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[rfc] nvarchar(13) NOT NULL ,
-	[nombre] nvarchar(max) NOT NULL,
-	[correo] nvarchar(max) NOT NULL,
-	[telefono] nvarchar(13) NOT NULL,
-	[estadoProveedor] nvarchar(max) NOT NULL,
+	[rfc] varchar(13) NOT NULL ,
+	[nombre] varchar(max) NOT NULL,
+	[correo] varchar(max) NOT NULL,
+	[telefono] varchar(13) NOT NULL,
+	[estadoProveedor] varchar(max) NOT NULL,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [Monedero] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigoDeBarras] nvarchar(max) NOT NULL ,
+	[codigoDeBarras] varchar(max) NOT NULL ,
 	[saldo] decimal(8,2) NOT NULL,
-	[telefono] nvarchar(max) NOT NULL,
+	[telefono] varchar(max) NOT NULL,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [EstadoProducto] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL ,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [ProductoInventario] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigo] nvarchar(max) NOT NULL ,
-	[nombre] nvarchar(max) NOT NULL,
-	[descripcion] nvarchar(max) NOT NULL,
+	[codigo] varchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL,
+	[descripcion] varchar(max) NOT NULL,
 	[cantidad] int NOT NULL,
 	[precioActual] decimal(8,2) NOT NULL,
-	[esPerecedero] nvarchar(max) NOT NULL,
-	[esDevolvible] nvarchar(max) NOT NULL,
-	[ubicacion] nvarchar(max) NOT NULL,
+	[esPerecedero] varchar(max) NOT NULL,
+	[esDevolvible] varchar(max) NOT NULL,
+	[ubicacion] varchar(max) NOT NULL,
 	[idUnidadMedida] int NOT NULL,
 	[idCategoria] int NOT NULL,
 	[idEstado] int NOT NULL,
@@ -51,20 +51,20 @@ CREATE TABLE [DetallePedido] (
 
 CREATE TABLE [Caja] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[noCaja] nvarchar(255) NOT NULL,
+	[noCaja] varchar(255) NOT NULL,
 	[horaDeCorte] datetime NOT NULL,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [Puesto] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL ,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [Categoria] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL ,
 	PRIMARY KEY ([id])
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE [Pedido] (
 
 CREATE TABLE [Promocion] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL,
+	[nombre] varchar(max) NOT NULL,
 	[porcentajeDescuento] int NOT NULL,
 	[cantMaxima] int NOT NULL,
 	[cantMinima] int NOT NULL,
@@ -88,14 +88,14 @@ CREATE TABLE [Promocion] (
 
 CREATE TABLE [Empleado] (
 	[id] int NOT NULL,
-	[rfc] nvarchar(13) NOT NULL ,
-	[noempleado] nvarchar(255) NOT NULL,
-	[nombre] nvarchar(255) NOT NULL,
-	[apellidoPaterno] nvarchar(255) NOT NULL,
-	[apellidoMaterno] nvarchar(255) NOT NULL,
-	[correo] nvarchar(255) NOT NULL,
-	[password] nvarchar(255) NOT NULL,
-	[telefono] nvarchar(10) NOT NULL,
+	[rfc] varchar(13) NOT NULL ,
+	[noempleado] varchar(255) NOT NULL,
+	[nombre] varchar(255) NOT NULL,
+	[apellidoPaterno] varchar(255) NOT NULL,
+	[apellidoMaterno] varchar(255) NOT NULL,
+	[correo] varchar(255) NOT NULL,
+	[password] varchar(255) NOT NULL,
+	[telefono] varchar(10) NOT NULL,
 	[idPuesto] int NOT NULL,
 	PRIMARY KEY ([id])
 );
@@ -103,7 +103,7 @@ CREATE TABLE [Empleado] (
 CREATE TABLE [Merma] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[cantidad] int NOT NULL,
-	[descripcion] nvarchar(max) NOT NULL,
+	[descripcion] varchar(max) NOT NULL,
 	[fechaRegistro] date NOT NULL,
 	[idProductoInventario] int NOT NULL,
 	PRIMARY KEY ([id])
@@ -111,13 +111,13 @@ CREATE TABLE [Merma] (
 
 CREATE TABLE [UnidadDeMedida] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL ,
 	PRIMARY KEY ([id])
 );
 
 CREATE TABLE [EstadoPedido] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL ,
+	[nombre] varchar(max) NOT NULL ,
 	PRIMARY KEY ([id])
 );
 
@@ -144,11 +144,11 @@ CREATE TABLE [DetalleVenta] (
 
 CREATE TABLE [Producto] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigo] nvarchar(max) NOT NULL ,
-	[descripcion] nvarchar(max) NOT NULL,
-	[esDevolvible] nvarchar(max) NOT NULL,
-	[esPerecedero] nvarchar(max) NOT NULL,
-	[nombre] nvarchar(max) NOT NULL,
+	[codigo] varchar(max) NOT NULL ,
+	[descripcion] varchar(max) NOT NULL,
+	[esDevolvible] varchar(max) NOT NULL,
+	[esPerecedero] varchar(max) NOT NULL,
+	[nombre] varchar(max) NOT NULL,
 	[idProveedor] int NOT NULL,
 	[idUnidadMedida] int NOT NULL,
 	PRIMARY KEY ([id])
