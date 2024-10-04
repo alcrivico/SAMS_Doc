@@ -3,8 +3,8 @@ CREATE TABLE [Proveedor] (
 	[rfc] varchar(13) NOT NULL ,
 	[nombre] varchar(max) NOT NULL,
 	[correo] varchar(max) NOT NULL,
-	[telefono] varchar(13) NOT NULL,
-	[estadoProveedor] varchar(max) NOT NULL,
+	[telefono] varchar(10) NOT NULL,
+	[estadoProveedor] bit NOT NULL,
 	PRIMARY KEY ([id])
 );
 
@@ -12,7 +12,7 @@ CREATE TABLE [Monedero] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[codigoDeBarras] varchar(max) NOT NULL ,
 	[saldo] decimal(8,2) NOT NULL,
-	[telefono] varchar(max) NOT NULL,
+	[telefono] varchar(10) NOT NULL,
 	PRIMARY KEY ([id])
 );
 
@@ -29,8 +29,8 @@ CREATE TABLE [ProductoInventario] (
 	[descripcion] varchar(max) NOT NULL,
 	[cantidad] int NOT NULL,
 	[precioActual] decimal(8,2) NOT NULL,
-	[esPerecedero] varchar(max) NOT NULL,
-	[esDevolvible] varchar(max) NOT NULL,
+	[esPerecedero] bit NOT NULL,
+	[esDevolvible] bit NOT NULL,
 	[ubicacion] varchar(max) NOT NULL,
 	[idUnidadMedida] int NOT NULL,
 	[idCategoria] int NOT NULL,
@@ -65,6 +65,7 @@ CREATE TABLE [Puesto] (
 CREATE TABLE [Categoria] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[nombre] varchar(max) NOT NULL ,
+    [estado] bit NOT NULL,
 	PRIMARY KEY ([id])
 );
 
@@ -124,7 +125,7 @@ CREATE TABLE [EstadoPedido] (
 CREATE TABLE [Venta] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[noVenta] int NOT NULL ,
-	[fechaRegistro] date NOT NULL,
+	[fechaRegistro] datetime NOT NULL,
 	[iva] decimal(8,2) NOT NULL,
 	[idCaja] int NOT NULL,
 	[idMonedero] int NOT NULL,
@@ -146,8 +147,8 @@ CREATE TABLE [Producto] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[codigo] varchar(max) NOT NULL ,
 	[descripcion] varchar(max) NOT NULL,
-	[esDevolvible] varchar(max) NOT NULL,
-	[esPerecedero] varchar(max) NOT NULL,
+	[esDevolvible] bit NOT NULL,
+	[esPerecedero] bit NOT NULL,
 	[nombre] varchar(max) NOT NULL,
 	[idProveedor] int NOT NULL,
 	[idUnidadMedida] int NOT NULL,
