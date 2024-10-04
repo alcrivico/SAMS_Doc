@@ -1,3 +1,6 @@
+CREATE DATABASE[SAMS_DB];
+USE SAMS_DB;
+
 CREATE TABLE [Proveedor] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[rfc] varchar(13) NOT NULL ,
