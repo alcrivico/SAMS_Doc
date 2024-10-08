@@ -55,7 +55,7 @@ Actualmente, la cadena de supermercados gestiona sus operaciones utilizando hoja
 │   └── [DiagramaClases.png](Documentación/DiagramaClases.png)
 │   └── [DiagramaPaquetes.png](Documentación/DiagramaPaquetes.png)
 ├── [Planificación](Planificación)
-
+```
 
 ## 📂 Contenido del Repositorio
 
