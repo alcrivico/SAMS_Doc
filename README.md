@@ -19,7 +19,7 @@ Actualmente, la cadena de supermercados gestiona sus operaciones utilizando hoja
 
 ## 🗂️ Estructura de Carpetas
 
-```bash
+
 ├── [Documentación](Documentación)
 │   ├── [BaseDatos](Documentación/BaseDatos)
 │   ├── [CU-01_IniciarSesión](Documentación/CU-01_IniciarSesión)
@@ -55,7 +55,6 @@ Actualmente, la cadena de supermercados gestiona sus operaciones utilizando hoja
 │   └── [DiagramaClases.png](Documentación/DiagramaClases.png)
 │   └── [DiagramaPaquetes.png](Documentación/DiagramaPaquetes.png)
 ├── [Planificación](Planificación)
-```
 
 ## 📂 Contenido del Repositorio
 
