@@ -1,6 +1,7 @@
 CREATE DATABASE[SAMS.Data];
-USE SAMS.Data;
-
+GO
+USE [SAMS.Data];
+GO
 CREATE TABLE [Proveedor] (
 	[id] int IDENTITY(1,1) NOT NULL,
 	[rfc] varchar(13) NOT NULL ,
@@ -13,7 +14,7 @@ CREATE TABLE [Proveedor] (
 
 CREATE TABLE [Monedero] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigoDeBarras] varchar(max) NOT NULL ,
+	[codigoDeBarras] varchar(20) NOT NULL ,
 	[saldo] decimal(8,2) NOT NULL,
 	[telefono] varchar(10) NOT NULL,
 	PRIMARY KEY ([id])
@@ -27,18 +28,19 @@ CREATE TABLE [EstadoProducto] (
 
 CREATE TABLE [ProductoInventario] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigo] varchar(max) NOT NULL ,
+	[codigo] varchar(20) NOT NULL ,
 	[nombre] varchar(max) NOT NULL,
 	[descripcion] varchar(max) NOT NULL,
-	[cantidad] int NOT NULL,
+	[cantidadBodega] int NOT NULL,
+	[cantidadExhibicion] int NOT NULL,
 	[precioActual] decimal(8,2) NOT NULL,
 	[esPerecedero] bit NOT NULL,
 	[esDevolvible] bit NOT NULL,
-	[ubicacion] varchar(max) NOT NULL,
+	[ubicacion] bit NOT NULL,
 	[idUnidadMedida] int NOT NULL,
 	[idCategoria] int NOT NULL,
 	[idEstado] int NOT NULL,
-	[idPromocion] int NOT NULL,
+	[idPromocion] int,
 	PRIMARY KEY ([id])
 );
 
@@ -54,7 +56,7 @@ CREATE TABLE [DetallePedido] (
 
 CREATE TABLE [Caja] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[noCaja] varchar(255) NOT NULL,
+	[noCaja] varchar(2) NOT NULL,
 	[horaDeCorte] datetime NOT NULL,
 	PRIMARY KEY ([id])
 );
@@ -74,7 +76,7 @@ CREATE TABLE [Categoria] (
 
 CREATE TABLE [Pedido] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[noPedido] int NOT NULL ,
+	[noPedido] varchar(max) NOT NULL ,
 	[fechaPedido] date NOT NULL,
 	[fechaEntrega] date NOT NULL,
 	[idEstadoPedido] int NOT NULL,
@@ -96,7 +98,7 @@ CREATE TABLE [Empleado] (
 	[noempleado] varchar(255) NOT NULL,
 	[nombre] varchar(255) NOT NULL,
 	[apellidoPaterno] varchar(255) NOT NULL,
-	[apellidoMaterno] varchar(255) NOT NULL,
+	[apellidoMaterno] varchar(255),
 	[correo] varchar(255) NOT NULL,
 	[password] varchar(255) NOT NULL,
 	[telefono] varchar(10) NOT NULL,
@@ -148,7 +150,7 @@ CREATE TABLE [DetalleVenta] (
 
 CREATE TABLE [Producto] (
 	[id] int IDENTITY(1,1) NOT NULL,
-	[codigo] varchar(max) NOT NULL ,
+	[codigo] varchar(20) NOT NULL ,
 	[descripcion] varchar(max) NOT NULL,
 	[esDevolvible] bit NOT NULL,
 	[esPerecedero] bit NOT NULL,
@@ -167,34 +169,20 @@ CREATE TABLE [PromocionVigencia] (
 );
 
 
-ALTER TABLE [ProductoInventario] ADD CONSTRAINT [ProductoInventario_fk10] FOREIGN KEY ([idUnidadMedida]) REFERENCES [UnidadDeMedida]([id]);
-
-ALTER TABLE [ProductoInventario] ADD CONSTRAINT [ProductoInventario_fk11] FOREIGN KEY ([idCategoria]) REFERENCES [Categoria]([id]);
-
-ALTER TABLE [ProductoInventario] ADD CONSTRAINT [ProductoInventario_fk12] FOREIGN KEY ([idEstado]) REFERENCES [EstadoProducto]([id]);
-
-ALTER TABLE [ProductoInventario] ADD CONSTRAINT [ProductoInventario_fk13] FOREIGN KEY ([idPromocion]) REFERENCES [Promocion]([id]);
-ALTER TABLE [DetallePedido] ADD CONSTRAINT [DetallePedido_fk3] FOREIGN KEY ([idPedido]) REFERENCES [Pedido]([id]);
-
-ALTER TABLE [DetallePedido] ADD CONSTRAINT [DetallePedido_fk4] FOREIGN KEY ([idProductoProveedor]) REFERENCES [Producto]([id]);
-
-
-
-ALTER TABLE [Pedido] ADD CONSTRAINT [Pedido_fk4] FOREIGN KEY ([idEstadoPedido]) REFERENCES [EstadoPedido]([id]);
-
-ALTER TABLE [Empleado] ADD CONSTRAINT [Empleado_fk9] FOREIGN KEY ([idPuesto]) REFERENCES [Puesto]([id]);
-ALTER TABLE [Merma] ADD CONSTRAINT [Merma_fk4] FOREIGN KEY ([idProductoInventario]) REFERENCES [ProductoInventario]([id]);
-
-
-ALTER TABLE [Venta] ADD CONSTRAINT [Venta_fk4] FOREIGN KEY ([idCaja]) REFERENCES [Caja]([id]);
-
-ALTER TABLE [Venta] ADD CONSTRAINT [Venta_fk5] FOREIGN KEY ([idMonedero]) REFERENCES [Monedero]([id]);
-
-ALTER TABLE [Venta] ADD CONSTRAINT [Venta_fk6] FOREIGN KEY ([idEmpleado]) REFERENCES [Empleado]([id]);
-ALTER TABLE [DetalleVenta] ADD CONSTRAINT [DetalleVenta_fk3] FOREIGN KEY ([idVenta]) REFERENCES [Venta]([id]);
-
-ALTER TABLE [DetalleVenta] ADD CONSTRAINT [DetalleVenta_fk4] FOREIGN KEY ([idProductoInventario]) REFERENCES [ProductoInventario]([id]);
-ALTER TABLE [Producto] ADD CONSTRAINT [Producto_fk6] FOREIGN KEY ([idProveedor]) REFERENCES [Proveedor]([id]);
-
-ALTER TABLE [Producto] ADD CONSTRAINT [Producto_fk7] FOREIGN KEY ([idUnidadMedida]) REFERENCES [UnidadDeMedida]([id]);
-ALTER TABLE [PromocionVigencia] ADD CONSTRAINT [PromocionVigencia_fk3] FOREIGN KEY ([idPromocion]) REFERENCES [Promocion]([id]);
+ALTER TABLE [ProductoInventario] ADD CONSTRAINT [FK_ProductoInventario] FOREIGN KEY ([idUnidadMedida]) REFERENCES [UnidadDeMedida]([id]);
+ALTER TABLE [ProductoInventario] ADD CONSTRAINT [FK_ProductoInventario] FOREIGN KEY ([idCategoria]) REFERENCES [Categoria]([id]);
+ALTER TABLE [ProductoInventario] ADD CONSTRAINT [FK_ProductoInventario] FOREIGN KEY ([idEstado]) REFERENCES [EstadoProducto]([id]);
+ALTER TABLE [ProductoInventario] ADD CONSTRAINT [FK_ProductoInventario] FOREIGN KEY ([idPromocion]) REFERENCES [Promocion]([id]);
+ALTER TABLE [DetallePedido] ADD CONSTRAINT [FK_DetallePedido] FOREIGN KEY ([idPedido]) REFERENCES [Pedido]([id]);
+ALTER TABLE [DetallePedido] ADD CONSTRAINT [FK_DetallePedido] FOREIGN KEY ([idProductoProveedor]) REFERENCES [Producto]([id]);
+ALTER TABLE [Pedido] ADD CONSTRAINT [FK_Pedido] FOREIGN KEY ([idEstadoPedido]) REFERENCES [EstadoPedido]([id]);
+ALTER TABLE [Empleado] ADD CONSTRAINT [FK_Empleado] FOREIGN KEY ([idPuesto]) REFERENCES [Puesto]([id]);
+ALTER TABLE [Merma] ADD CONSTRAINT [FK_Merma] FOREIGN KEY ([idProductoInventario]) REFERENCES [ProductoInventario]([id]);
+ALTER TABLE [Venta] ADD CONSTRAINT [FK_Venta] FOREIGN KEY ([idCaja]) REFERENCES [Caja]([id]);
+ALTER TABLE [Venta] ADD CONSTRAINT [FK_Venta] FOREIGN KEY ([idMonedero]) REFERENCES [Monedero]([id]);
+ALTER TABLE [Venta] ADD CONSTRAINT [FK_Venta] FOREIGN KEY ([idEmpleado]) REFERENCES [Empleado]([id]);
+ALTER TABLE [DetalleVenta] ADD CONSTRAINT [FK_DetalleVenta] FOREIGN KEY ([idVenta]) REFERENCES [Venta]([id]);
+ALTER TABLE [DetalleVenta] ADD CONSTRAINT [FK_DetalleVenta] FOREIGN KEY ([idProductoInventario]) REFERENCES [ProductoInventario]([id]);
+ALTER TABLE [Producto] ADD CONSTRAINT [FK_Producto] FOREIGN KEY ([idProveedor]) REFERENCES [Proveedor]([id]);
+ALTER TABLE [Producto] ADD CONSTRAINT [FK_Producto] FOREIGN KEY ([idUnidadMedida]) REFERENCES [UnidadDeMedida]([id]);
+ALTER TABLE [PromocionVigencia] ADD CONSTRAINT [FK_PromocionVigencia] FOREIGN KEY ([idPromocion]) REFERENCES [Promocion]([id]);
