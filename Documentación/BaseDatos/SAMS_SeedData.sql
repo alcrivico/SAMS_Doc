@@ -82,10 +82,10 @@ INSERT INTO Producto (codigo, descripcion, esDevolvible, esPerecedero, nombre, i
 GO
 
 -- 12. ProductoInventario
-INSERT INTO ProductoInventario (codigo, nombre, descripcion, cantidad, precioActual, esPerecedero, esDevolvible, ubicacion, idUnidadMedida, idCategoria, idEstado, idPromocion) VALUES
-('7501000111110', 'Leche Entera Alpura 1L', 'Leche entera pasteurizada Alpura', 150, 18.50, 1, 1, 'Exibicion', 1, 1, 1, 1),
-('7501000122223', 'Pan Blanco Bimbo 680g', 'Pan de caja blanco Bimbo', 120, 32.00, 0, 1, 'Exibicion', 4, 2, 1, 2),
-('7501000133336', 'Coca-Cola 2L', 'Refresco Coca-Cola 2 litros', 200, 29.00, 0, 1, 'Exibicion', 1, 3, 1, 1);
+INSERT INTO ProductoInventario (codigo, nombre, descripcion, cantidadBodega, cantidadExhibicion, precioActual, esPerecedero, esDevolvible, ubicacion, idUnidadMedida, idCategoria, idEstado, idPromocion) VALUES
+('7501000111110', 'Leche Entera Alpura 1L', 'Leche entera pasteurizada Alpura', 150, 200, 18.50, 1, 1, 'Exibicion', 1, 1, 1, 1),
+('7501000122223', 'Pan Blanco Bimbo 680g', 'Pan de caja blanco Bimbo', 120, 50, 32.00, 0, 1, 'Exibicion', 4, 2, 1, 2),
+('7501000133336', 'Coca-Cola 2L', 'Refresco Coca-Cola 2 litros', 200, 100, 29.00, 0, 1, 'Exibicion', 1, 3, 1, 1);
 GO
 
 -- 13. Pedido
