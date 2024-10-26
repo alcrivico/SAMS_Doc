@@ -4,14 +4,6 @@ Este repositorio contiene la documentación y diseño de un sistema de administr
 ## 📜 Descripción del Proyecto
 Actualmente, la cadena de supermercados gestiona sus operaciones utilizando hojas de cálculo, lo que resulta en errores frecuentes y un alto consumo de tiempo en tareas como control de inventarios y procesamiento de pedidos. Este proyecto busca resolver estos problemas a través de una aplicación de escritorio con una arquitectura cliente-servidor, utilizando WPF (Windows Presentation Foundation) para la interfaz de usuario y Microsoft SQL Server como base de datos.
 
-## ✨ Autores
-
-- [Albhieri Cristoff Villa Contreras](https://github.com/alcrivico)
-- [César González López](https://github.com/DracoGilga)
-- [Miguel Ángel Morales Cruz](https://github.com/MiguelMorales2002)
-- [Raúl Hernández Olivares](https://github.com/RaulHernandez23)
-- [Victoria Priscilla Moyano Argüelles](https://github.com/Maltteada)
-
 ## 👩‍💻👨‍💻 Contribuidores
 <a href="https://github.com/alcrivico/SAMS_Doc/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=alcrivico/SAMS_Doc" />
@@ -43,6 +35,14 @@ Actualmente, la cadena de supermercados gestiona sus operaciones utilizando hoja
   - [CU-20_RegistrarMonedero](Documentación/CU-20_RegistrarMonedero)
   - [CU-21_ConsultarMonedero](Documentación/CU-21_ConsultarMonedero)
   - [CU-22_ActualizarMonedero](Documentación/CU-22_ActualizarMonedero)
+  - [CU-23_RegistrarMerma](Documentación/CU-23_RegistrarMerma)
+  - [CU-24_CancelarMerma](Documentación/CU-24_CancelarMerma)
+  - [CU-25_RegistrarCategoria](Documentación/CU-25_RegistrarCategoria)
+  - [CU-26_EditarCategoria](Documentación/CU-26_EditarCategoria)
+  - [CU-27_EliminarCategoria](Documentación/CU-27_EliminarCategoria)
+  - [CU-28_RegistrarPedidoAProveedor](Documentación/CU-28_RegistrarPedidoAProveedor)
+  - [CU-29_ConsultarPedidoAProveedor](Documentación/CU-29_ConsultarPedidoAProveedor)
+  - [CU-30_EditarPedidoAProveedor](Documentación/CU-30_EditarPedidoAProveedor)
   - [CU-31_CancelarPedidoAProveedor](Documentación/CU-31_CancelarPedidoAProveedor)
   - [CU-32_RegistrarPromoción](Documentación/CU-32_RegistrarPromoción)
   - [CU-33_EditarPromoción](Documentación/CU-33_EditarPromoción)
