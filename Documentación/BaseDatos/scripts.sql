@@ -12,6 +12,10 @@ CREATE INDEX I_Proveedor_rfc ON
 Proveedor(rfc);
 GO -- Autor: Raul
 
+CREATE INDEX I_Empleado_rfc ON
+Empleado(rfc);
+GO -- Autor: Raul
+
 -- 2. vistas
 CREATE VIEW V_ProductoInventario AS
 SELECT
@@ -58,7 +62,7 @@ INNER JOIN
 GO
 
 
-CREATE VIEW V_Proveedor AS
+CREATE VIEW V_Proveedores AS
 SELECT
     p.nombre,
     p.rfc,
@@ -74,6 +78,36 @@ SELECT
     p.descripcion
 FROM 
     Producto p
+GO -- Autor: Raul
+
+CREATE VIEW V_Empleados AS
+SELECT
+    CONCAT(e.nombre, ' ', e.apellidoPaterno, ' ', e.apellidoMaterno) AS nombre,
+    e.rfc,
+    p.nombre AS puesto
+FROM
+    Empleado e
+INNER JOIN
+    Puesto p
+    ON
+    e.idPuesto = p.id
+GO -- Autor: Raul
+
+CREATE VIEW V_EmpleadoDetalle AS
+SELECT
+    e.nombre,
+    e.apellidoPaterno,
+    e.apellidoMaterno,
+    e.rfc,
+    e.noempleado,
+    e.correo,
+    p.nombre AS puesto
+FROM 
+    Empleado e
+INNER JOIN
+    Puesto p
+    ON
+    e.idPuesto = p.id
 GO -- Autor: Raul
 
 -- 3. procedimientos almacenados
