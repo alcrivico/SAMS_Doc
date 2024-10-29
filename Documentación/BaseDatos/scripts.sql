@@ -4,6 +4,14 @@ GO
 CREATE INDEX I_ProductoInventario_Codigo ON ProductoInventario(codigo);
 GO
 
+CREATE INDEX I_Producto_Codigo ON
+Producto(codigo);
+GO -- Autor: Raul
+
+CREATE INDEX I_Proveedor_rfc ON
+Proveedor(rfc);
+GO -- Autor: Raul
+
 -- 2. vistas
 CREATE VIEW V_ProductoInventario AS
 SELECT
@@ -48,6 +56,25 @@ INNER JOIN
 	ON
 	p.id = pv.idPromocion
 GO
+
+
+CREATE VIEW V_Proveedor AS
+SELECT
+    p.nombre,
+    p.rfc,
+    p.estadoProveedor
+FROM
+    Proveedor p
+GO -- Autor: Raul
+
+CREATE VIEW V_Producto AS
+SELECT
+    p.nombre,
+    p.codigo,
+    p.descripcion
+FROM 
+    Producto p
+GO -- Autor: Raul
 
 -- 3. procedimientos almacenados
 -- funciones listas
