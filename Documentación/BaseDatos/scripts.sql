@@ -394,12 +394,20 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE [dbo].T_RegistrarProveedorConProductos
+(
+    @nombre NVARCHAR(100),
+    @rfc CHAR(13),
+    @estadoProveedor NVARCHAR(100),
+    @productos dbo.ProductoInventarioIDList READONLY
+)
+
 -- 4. disparadores
 
 -- 5. jobs
 -- para los jobs se debe de utilizar el usuario SAMS.Data.Admin
 -- los jobs deben de ser ejecutados hasta el ultimo de el script
--- FAVOR DE PONER PRIMERO EL USUARIO SAMS.Data.Admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- FAVOR DE PONER PRIMERO EL USUARIO SAMS.Data.Admin !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 USE [msdb];
 GO
 -- 1. Crear el Job
