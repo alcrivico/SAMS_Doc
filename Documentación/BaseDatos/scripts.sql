@@ -4,6 +4,18 @@ GO
 CREATE INDEX I_ProductoInventario_Codigo ON ProductoInventario(codigo);
 GO
 
+CREATE INDEX I_Producto_Codigo ON
+Producto(codigo);
+GO -- Autor: Raul
+
+CREATE INDEX I_Proveedor_rfc ON
+Proveedor(rfc);
+GO -- Autor: Raul
+
+CREATE INDEX I_Empleado_rfc ON
+Empleado(rfc);
+GO -- Autor: Raul
+
 -- 2. vistas
 CREATE VIEW V_ProductoInventario AS
 SELECT
@@ -48,6 +60,55 @@ INNER JOIN
 	ON
 	p.id = pv.idPromocion
 GO
+
+
+CREATE VIEW V_Proveedores AS
+SELECT
+    p.nombre,
+    p.rfc,
+    p.estadoProveedor
+FROM
+    Proveedor p
+GO -- Autor: Raul
+
+CREATE VIEW V_Producto AS
+SELECT
+    p.nombre,
+    p.codigo,
+    p.descripcion
+FROM 
+    Producto p
+GO -- Autor: Raul
+
+CREATE VIEW V_Empleados AS
+SELECT
+    CONCAT(e.nombre, ' ', e.apellidoPaterno, ' ', e.apellidoMaterno) AS nombre,
+    e.rfc,
+    p.nombre AS puesto
+FROM
+    Empleado e
+INNER JOIN
+    Puesto p
+    ON
+    e.idPuesto = p.id
+GO -- Autor: Raul
+
+CREATE VIEW V_EmpleadoDetalle AS
+SELECT
+    e.nombre,
+    e.apellidoPaterno,
+    e.apellidoMaterno,
+    e.rfc,
+    e.noempleado,
+    e.correo,
+    p.nombre AS puesto
+FROM 
+    Empleado e
+INNER JOIN
+    Puesto p
+    ON
+    e.idPuesto = p.id
+GO -- Autor: Raul
 
 -- 3. procedimientos almacenados
 -- funciones listas
@@ -333,12 +394,20 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE [dbo].T_RegistrarProveedorConProductos
+(
+    @nombre NVARCHAR(100),
+    @rfc CHAR(13),
+    @estadoProveedor NVARCHAR(100),
+    @productos dbo.ProductoInventarioIDList READONLY
+)
+
 -- 4. disparadores
 
 -- 5. jobs
 -- para los jobs se debe de utilizar el usuario SAMS.Data.Admin
 -- los jobs deben de ser ejecutados hasta el ultimo de el script
--- FAVOR DE PONER PRIMERO EL USUARIO SAMS.Data.Admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- FAVOR DE PONER PRIMERO EL USUARIO SAMS.Data.Admin !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 USE [msdb];
 GO
 -- 1. Crear el Job
