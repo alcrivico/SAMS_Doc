@@ -36,7 +36,6 @@ CREATE TABLE [ProductoInventario] (
 	[precioActual] decimal(8,2) NOT NULL,
 	[esPerecedero] bit NOT NULL,
 	[esDevolvible] bit NOT NULL,
-	[ubicacion] bit NOT NULL,
 	[idUnidadMedida] int NOT NULL,
 	[idCategoria] int NOT NULL,
 	[idEstado] int NOT NULL,
@@ -218,3 +217,4 @@ GO
 
 USE [SAMS.Data];
 GO
+
